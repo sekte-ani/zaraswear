@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: python-app
+    container_name: zaraswear-app
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    environment:
+      - MONGO_URI=mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.rm55nxd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME}
+    networks:
+      - zaraswear
+
+  web:
+    image: nginx:alpine
+    container_name: zaraswear-nginx
+    restart: unless-stopped
+    ports:
+      - "8008:80"
+    volumes:
+      - .:/app
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - zaraswear
+
+networks:
+  zaraswear:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    name: mongodb_zaraswear_data
