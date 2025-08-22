@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/dashboard.css') }}">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/logo_white.png') }}" rel="icon">
+
+</head>
+
+<body>
+
+  {% include 'sidebar.html' %}
+
+  <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom title">
+    <h2>Dashboard</h2>
+    <div class="btn-toolbar mb-3 mb-md-0">
+    </div>
+  </div>
+
+  <section class="dashboard">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-lg-4 col-md-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Jumlah Pengguna Terdaftar</h5>
+              <p class="card-text">{{ users|length }}</p>
+              <a href="/kelolaUser" class="btn btn-warning">Lihat Detail</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Jumlah Produk Atasan</h5>
+              <p class="card-text">{{ atasan_counts|length }}</p>
+              <a href="/adminAtasan" class="btn btn-warning">Lihat Detail</a>
+            </div>
+          </div>
+        </div>
+         <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Jumlah Produk Dress</h5>
+              <p class="card-text">{{ dress_counts|length }}</p>
+              <a href="/adminDress" class="btn btn-warning">Lihat Detail</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Jumlah Produk Hijab</h5>
+              <p class="card-text">{{ hijab_counts|length }}</p>
+              <a href="/adminHijab" class="btn btn-warning">Lihat Detail</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Jumlah Produk Outwear</h5>
+              <p class="card-text">{{ outwear_counts|length }}</p>
+              <a href="/adminOutwear" class="btn btn-warning">Lihat Detail</a>
+            </div>
+          </div>
+        </div>
+        <!-- Tambahkan card-card lainnya sesuai kebutuhan -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Daftar Pengguna -->
+  <section class="daftar-pengguna mt-5">
+    <h3 class="mb-4">Daftar Pengguna</h3>
+    <div class="table-responsive">
+      <table class="table table-md table-hover">
+        <thead>
+          <tr>
+            <th scope="col">NO</th>
+            <th scope="col">NAMA</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">TANGGAL DAFTAR</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i, user in enumerate(users) %}
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.nama }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.registration_date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <!-- End Daftar Pengguna -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
+    integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
+    </script>
+  <script src="dashboard.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Zaras.wear</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../static/assets/img/favicon.png" rel="icon">
+  <link href="../static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../static/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../static/assets/css/main.css" rel="stylesheet">
+  <script src="../static/assets/js/main.js"></script>
+  <link rel="stylesheet" href="../static/assets/css/profile.css">
+</head>
+
+<body>
+  {% include 'navbar.html' %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 mb-5 mt-5">
+        <div class="profile mt-5">
+          <div class="profile-details mt-3">
+            <h4 class="text-center mb-5">Profile Kamu</h4>
+            <div class="mb-3">
+              <label for="nama" class="form-label">Nama</label>
+              <input type="text" class="form-control" id="nama" placeholder="Nama">
+            </div>
+            <div class="mb-3">
+              <label for="noHp" class="form-label">Nomor HP</label>
+              <input type="number" class="form-control" id="noHp" placeholder="Nomor HP">
+            </div>
+            <div class="text-center">
+              <button id="saveProfile" class="btn btn-warning mt-3">Simpan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'footer.html' %}
+  <script>
+    document.getElementById('saveProfile').addEventListener('click', function () {
+      var profileData = {
+        nama: document.getElementById('nama').value,
+        noHp: document.getElementById('noHp').value,
+      };
+
+      fetch('/update_profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(profileData)
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.result === 'success') {
+            alert('Profile berhasil diupdate!');
+            fetchUserData(); // Refresh user data to show updated information
+          } else {
+            alert('Failed to update profile: ' + data.msg);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Terdapat error dalam pengupdate-an profile.');
+        });
+    });
+
+    function fetchUserData() {
+      fetch('/get_user_data')
+        .then(response => response.json())
+        .then(data => {
+          if (data.result !== 'failure') {
+            document.getElementById('nama').value = data.nama;
+            document.getElementById('noHp').value = data.noHp;
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    window.onload = fetchUserData;
+  </script>
+
+</body>
+
+</html>

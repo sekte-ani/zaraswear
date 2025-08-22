@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Zaras.wear</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../static/assets/img/favicon.png" rel="icon">
+  <link href="../static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <!-- Vendor CSS Files -->
+  <link href="../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../static/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../static/assets/css/main.css" rel="stylesheet">
+  <script src="../static/assets/js/main.js"></script>
+
+  <!-- =======================================================
+  * Template Name: UpConstruction - v1.3.0
+  * Template URL: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="Mid-client-0WCdEA3aiF7rtjB6"></script>
+
+  <style>
+    .table th,
+    .table-custom td {
+      padding: 15px 20px;
+      /* Increase padding for larger cells */
+      font-size: 18px;
+      /* Increase font size */
+      text-align: left;
+      /* Align text to the left */
+    }
+
+    .table th {
+      font-weight: bold;
+    }
+
+    .table td {
+      width: 25%;
+      /* Adjust column width as needed */
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  {% include 'navbar.html' %}
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs d-flex align-items-center"
+    style="background-image: url('../static/assets/img/latar.png');">
+    <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+      <h2>Checkout</h2>
+      <ol>
+        <li><a href="/keranjang">keranjang</a></li>
+        <li>Checkout</li>
+      </ol>
+    </div>
+  </div><!-- End Breadcrumbs -->
+
+  <!-- List Produk -->
+  <div class="container py-5 mt-5">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <table class="table table-responsive-lg table-hover">
+          <thead>
+            <tr>
+              <th>PRODUK</th>
+              <th>HARGA</th>
+              <th>KUANTITAS</th>
+              <th>JUMLAH</th>
+            </tr>
+          </thead>
+          <tbody id="cartTableBody">
+            {% for item in keranjang %}
+            <tr>
+              <td>{{ item['name'] }}</td>
+              <td>Rp {{ item['price'] }}</td>
+              <td>{{ item['quantity'] }}</td>
+              <td>Rp {{ item['price'] * item['quantity'] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-lg-12 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h4 class="card-title">TOTAL YANG DIBAYARKAN :</h4>
+              <h4 class="card-text" id="totalPrice">Rp {{total_price}}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-warning btn-lg" id="pay-button">Bayar</button>
+    </div>
+
+  </div>
+  </main>
+
+  <!-- Embed transaction_token in a script -->
+  <script>
+    // Pass the transaction_token from Flask to JavaScript
+    var transactionToken = "{{ transaction_token }}";
+
+    // Function to handle button click
+    function handleClick() {
+
+      if (transactionToken) {
+        // Trigger snap popup (Replace with actual implementation)
+        // window.snap.pay(transactionToken);
+        window.snap.pay(transactionToken);
+      } else {
+        console.error('Transaction token is missing');
+      }
+    }
+
+    // Add event listener to the button
+    document.getElementById('pay-button').addEventListener('click', handleClick);
+  </script>
+
+  <!-- Vendor JS Files -->
+  <script src="../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/assets/vendor/aos/aos.js"></script>
+  <script src="../static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../static/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../static/assets/js/main.js"></script>
+
+</body>
+
+</html>

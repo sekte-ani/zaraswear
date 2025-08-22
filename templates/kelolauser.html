@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zaras.wear</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+  {% include 'sidebar.html' %}
+
+  <div class="container">
+    <!-- Bagian User -->
+    <div class="mt-4">
+      <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom title">
+        <h1 class="h2">Daftar User</h1>
+        <div>
+            <input id="searchUser" class="form-control mr-sm-2" type="text" name="query" placeholder="Cari nama/email...">
+        </div>
+      </div>
+      <section class="daftar-produk">
+        <div class="table-responsive">
+          <table class="table table-md table-hover" id="userTable">
+            <thead>
+              <tr>
+                <th scope="col">NO</th>
+                <th scope="col">NAMA</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">NOMOR HP</th>
+                <th scope="col">TANGGAL DAFTAR</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i, user in enumerate(users) %}
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ user.nama }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.noHp }}</td>
+                <td>{{ user.registration_date }}</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" onclick="deleteUser('{{ user.email }}')">Delete</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      function deleteUser(email) {
+        if (confirm("Yakin ingin menghapus pengguna ini?")) {
+          fetch('/hapusUser', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email })
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+            location.reload();
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        }
+      }
+
+      $(document).ready(function() {
+        $('#searchUser').on('keyup', function() {
+            let value = $(this).val().toLowerCase();
+            $('#userTable tbody tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+    </script>
+</body>
+</html>

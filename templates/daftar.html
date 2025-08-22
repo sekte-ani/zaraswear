@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('../static/assets/img/loginbg.png');
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .login-container {
+      display: flex;
+      max-width: 800px;
+      /* Lebar maksimum form login */
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .login-left {
+      flex: 1;
+      padding: 30px;
+      /* Padding lebih besar untuk ruang tambahan */
+      background-color: white;
+      /* Warna latar belakang kiri */
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-right {
+      flex: 1.5;
+      /* Lebih besar dari login-left */
+      padding: 30px;
+      /* Padding lebih besar untuk ruang tambahan */
+    }
+
+    .login-form {
+      max-width: 400px;
+      /* Lebar maksimum form login */
+      margin: auto;
+    }
+
+    .login-form h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 15px;
+      /* Padding lebih besar untuk input */
+      margin-bottom: 15px;
+      /* Margin bottom lebih besar */
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 15px;
+      /* Padding lebih besar untuk tombol */
+      background-color: #f068bc;
+      color: #414040;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .login-form button:hover {
+      background-color: #873083;
+    }
+
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+        /* Mengubah layout menjadi vertikal di layar kecil */
+        max-width: 100%;
+      }
+
+      .login-left,
+      .login-right {
+        flex: none;
+        /* Elemen tidak memperluas secara otomatis */
+        width: 100%;
+        /* Menetapkan lebar penuh */
+      }
+    }
+  </style>
+  <title>Large Login Form with Logo</title>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-left">
+      <!-- Ganti dengan tag <img> dan path gambar sesuai kebutuhan -->
+      <img src="../static/assets/img/logo.jpeg" alt="Logo" style="max-width: 100%;">
+    </div>
+    <div class="login-right">
+      <div class="login-form">
+        <h2>Register</h2>
+        <form method="POST" id="daftarForm">
+          <input type="email" name="email" id="email" placeholder="Email" required>
+          <input type="text" name="nama" placeholder="Nama" id="nama" required>
+          <input type="number" name="noHp" placeholder="Nomor HP" id="noHp" required>
+          <input type="password" name="password" placeholder="Password" id="password" required>
+          <input type="password" name="confirm_password" id="confirm_password" placeholder="Konfirmasi Password" required>
+          <button type="submit" style="margin-bottom: 9px;">Daftar</button>
+          <div class="d-flex align-content-center justify-content-center">
+            <span>Sudah punya akun? </span><a href="/login"> Login di sini!</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $('#daftarForm').submit(function (event) {
+        event.preventDefault();
+        var formData = {
+          'nama': $('#nama').val(),
+          'noHp': $('#noHp').val(),
+          'email': $('#email').val(),
+          'password': $('#password').val(),
+          'confirm_password': $('#confirm_password').val()
+        };
+        $.ajax({
+          type: 'POST',
+          url: '/daftar',
+          data: formData,
+          dataType: 'json',
+          encode: true
+        })
+          .done(function (data) {
+            if (data.result === 'success') {
+              window.location.href = '/login'; // Redirect to login page if registration is successful
+            } else {
+              alert(data.msg); // Display an error message if registration fails
+            }
+          });
+      });
+    });
+  </script>
+</body>
+
+</html>

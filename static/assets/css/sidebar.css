@@ -1,0 +1,72 @@
+body {
+  color: black;
+}
+
+.title {
+  margin-top: 30px;
+}
+
+.nav-item a{
+  color: #000000;
+  font-size: 200;
+  font-weight: 500;
+  line-height: 3;
+}
+
+.nav-item a:hover{
+  color: #352803;
+  font-size: 300;
+  font-weight: bold;
+  line-height: 3;
+}
+
+header .navbar-nav, header .navbar-brand {
+  padding: 15px 30px;
+}
+
+#sidebarMenu {
+  height: 100vh;
+  position: fixed;
+}
+
+.sidebar {
+    background-image: linear-gradient(#f6f6f6,rgb(255, 248, 214))!important; /* Change sidebar background color */
+    color: #000000; /* Optional: change text color to white for better readability */
+    padding-right: 50px;
+    /* width: 250px; */
+}
+
+/* Change navbar background color */
+.navbar {
+    background-color:  #ffffff !important;
+    color: #ffffff; /* Optional: change text color to white for better readability */
+}
+
+/* Ensure navbar links and icons are visible */
+.navbar .nav-link {
+    color: #000000 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #sidebarMenu {
+      width: 100%; /* Full width sidebar on smaller screens */
+  }
+
+  .sidebar {
+      padding-right: 0; /* Remove right padding on smaller screens */
+  }
+
+  .navbar {
+      padding-left: 15px;
+      padding-right: 15px;
+  }
+
+  .nav-item a {
+      font-size: 18px; /* Adjust font size on smaller screens */
+  }
+
+  .nav-item a:hover {
+      font-size: 20px; /* Adjust font size on smaller screens */
+  }
+}

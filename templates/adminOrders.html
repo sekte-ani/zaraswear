@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Pesanan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/dashboard.css') }}">
+</head>
+
+<body>
+  {% include 'sidebar.html' %}
+
+  <div class="container mt-4">
+    <h2 class="mb-4">Daftar Pesanan</h2>
+
+    <form method="POST" action="/hapusPesanan">
+      <table class="table table-bordered table-striped align-middle text-center">
+        <thead>
+          <tr>
+            <th>Pilih</th>
+            <th>No</th>
+            <th>Email</th>
+            <th>Alamat</th>
+            <th>Produk</th>
+            <th>Total Harga</th>
+            <th>Status</th>
+            <th>Tanggal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td><input type="checkbox" name="selected_orders" value="{{ order.id }}"></td>
+            <td>{{ loop.index }}</td>
+            <td>{{ order.email }}</td>
+            <td>{{ order.address }}</td>
+            <td>
+              <ul class="list-unstyled mb-0">
+                {% for item in order.cart %}
+                  <li>{{ item.name }} (x{{ item.quantity }})</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>Rp {{ order.total_price }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.created_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <button class="btn btn-danger mt-2" onclick="deleteSelected()">Hapus Pesanan Terpilih</button>
+  </div>
+
+  <script>
+    function deleteSelected() {
+      let selected = [];
+      document.querySelectorAll('.order-checkbox:checked').forEach(cb => {
+        selected.push(cb.value);
+      });
+
+      if (selected.length === 0) {
+        alert("Pilih minimal satu pesanan untuk dihapus!");
+        return;
+      }
+
+      if (confirm("Yakin ingin menghapus pesanan terpilih?")) {
+        fetch('/hapusPesananBatch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ids: selected })
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          location.reload();
+        })
+        .catch(err => console.error(err));
+      }
+    }
+  </script>
+
+  <style>
+    /* Header tabel abu terang seperti Kelola User */
+    table thead th {
+      background-color: #f8f9fa !important;
+      color: #000 !important;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Isi tabel putih */
+    table tbody td {
+      background-color: #ffffff !important;
+      color: #000 !important;
+      text-align: center;
+    }
+  </style>
+</body>
+</html>

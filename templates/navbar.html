@@ -1,0 +1,79 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header d-flex align-items-center">
+  <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+    <a href="/" class="logo d-flex align-items-center">
+      <img src="../static/assets/img/Logo Zaraswear.png" alt="">
+    </a>
+
+    <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+    <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a href="/" class="">Halaman Utama</a></li>
+        <li><a href="/tentangKami">Tentang Kami</a></li>
+            <li class="dropdown"><a href="#"><span>Produk</span> <i
+                  class="bi bi-chevron-down dropdown-indicator"></i></a>
+              <ul>
+                
+                <li><a href="/atasan">Atasan</a></li>
+                <li><a href="/dress">Dress</a></li>
+                <li><a href="/hijab">Hijab</a></li>
+                <li><a href="/outwear">Outwear</a></li>
+                
+          
+        <li><a href="/keranjang"><i class="bi bi-cart" style="font-size: 1.5rem;"></i></a></li>
+        <li><a id="loginButton" href="/login" class="btn btn-outline-warning px-3">Masuk</a></li>
+      </ul>
+     <li><a href="/keranjang"><i class="bi bi-cart" style="font-size: 1.5rem;"></i></a></li>
+        <li><a id="loginButton" href="/login" class="btn btn-outline-warning px-3">Masuk</a></li>
+       
+    </nav><!-- .navbar -->
+
+  </div>
+</header><!-- End Header -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function updateLoginStatus() {
+    $.ajax({
+      type: 'GET',
+      url: '/check_login_status',
+      dataType: 'json',
+      success: function (data) {
+        if (data.logged_in) {
+          // Pengguna sudah login
+          $('#loginButton').replaceWith(`
+            <li class="dropdown">
+              <a href="#">
+                <span>${data.email}</span>
+                <i class="bi bi-chevron-down dropdown-indicator"></i>
+              </a>
+              <ul>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+            </li>
+          `);
+
+          // Toggle dropdown saat tombol username diklik
+          $('.dropdown > a').click(function (event) {
+            event.preventDefault();
+            $(this).next('ul').toggle();
+          });
+
+          // Menyembunyikan dropdown ketika klik di luar dropdown
+          $(document).click(function (event) {
+            if (!$(event.target).closest('.dropdown').length) {
+              $('.dropdown ul').hide();
+            }
+          });
+        }
+      }
+    });
+  }
+
+  $(document).ready(function () {
+    updateLoginStatus(); // Panggil fungsi saat dokumen siap
+  });
+</script>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Pesanan - Zaras.wear</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+  {% include 'sidebar.html' %}
+
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom title">
+      <h1 class="h2">Daftar Pesanan</h1>
+      <input id="searchOrder" class="form-control" type="text" placeholder="Cari email/alamat...">
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover" id="orderTable">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Email</th>
+            <th>Alamat</th>
+            <th>Produk</th>
+            <th>Total Harga</th>
+            <th>Status</th>
+            <th>Tanggal</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i, order in enumerate(orders) %}
+          <tr>
+            <td>{{ i+1 }}</td>
+            <td>{{ order.email }}</td>
+            <td>{{ order.address }}</td>
+            <td>
+              <ul>
+                {% for item in order.cart %}
+                <li>{{ item.name }} ({{ item.quantity }})</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>Rp {{ "{:,.0f}".format(order.total_price) }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.created_at }}</td>
+            <td>
+              <button class="btn btn-sm btn-success" onclick="updateStatus('{{ order.email }}', 'packed')">Set Packed</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteOrder('{{ order.email }}')">Hapus</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function deleteOrder(email) {
+      if (confirm("Yakin ingin menghapus pesanan ini?")) {
+        fetch('/hapusPesanan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        }).then(res => location.reload());
+      }
+    }
+
+    function updateStatus(email, status) {
+      fetch('/updatePesanan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, status: status })
+      }).then(res => location.reload());
+    }
+
+    // filter tabel
+    $("#searchOrder").on("keyup", function() {
+      let value = $(this).val().toLowerCase();
+      $("#orderTable tbody tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('../static/assets/img/loginbg.png');
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .login-container {
+      display: flex;
+      max-width: 800px;
+      /* Lebar maksimum form login */
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .login-left {
+      flex: 1;
+      padding: 30px;
+      /* Padding lebih besar untuk ruang tambahan */
+      background-color: white;
+      /* Warna latar belakang kiri */
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-right {
+      flex: 1.5;
+      /* Lebih besar dari login-left */
+      padding: 30px;
+      /* Padding lebih besar untuk ruang tambahan */
+    }
+
+    .login-form {
+      max-width: 400px;
+      /* Lebar maksimum form login */
+      margin: auto;
+    }
+
+    .login-form h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 15px;
+      /* Padding lebih besar untuk input */
+      margin-bottom: 15px;
+      /* Margin bottom lebih besar */
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 15px;
+      /* Padding lebih besar untuk tombol */
+      background-color:  #f068bc;
+      color: #414040;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .login-form button:hover {
+      background-color: #873083;
+    }
+
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+        /* Mengubah layout menjadi vertikal di layar kecil */
+        max-width: 100%;
+      }
+
+      .login-left,
+      .login-right {
+        flex: none;
+        /* Elemen tidak memperluas secara otomatis */
+        width: 100%;
+        /* Menetapkan lebar penuh */
+      }
+    }
+  </style>
+  <title>Large Login Form with Logo</title>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-left">
+      <!-- Ganti dengan tag <img> dan path gambar sesuai kebutuhan -->
+      <img src="../static/assets/img/logo.jpeg" alt="Logo" style="max-width: 100%;">
+    </div>
+    <div class="login-right">
+      <div class="login-form">
+        <h2>Login</h2>
+        <form method="POST" id="loginForm">
+          <input type="email" name="email" placeholder="Email" id="email" required>
+          <input type="password" name="password" placeholder="Password" id="password" required>
+          <button type="submit" style="margin-bottom: 9px;">Masuk</button>
+          <div class="d-flex align-content-center justify-content-center">
+            <span>Belum punya akun? </span><a href="/daftar"> Daftar di sini!</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+  $(document).ready(function () {
+    $('#loginForm').submit(function (event) {
+      event.preventDefault(); // Mencegah form submit secara default
+
+      var email = $('#email').val();
+      var password = $('#password').val();
+
+      // Hardcoded admin credentials
+      var adminEmail = 'zaraswear08@gmail.com';
+      var adminPassword = 'zaraswear2024';
+
+      if (email === adminEmail && password === adminPassword) {
+        // Redirect to admin dashboard
+        window.location.href = '/dashboard';
+      } else {
+        // Normal login process (user)
+        var formData = {
+          'email': email,       // ✅ konsisten dengan backend
+          'password': password  // ✅ konsisten dengan backend
+        };
+        $.ajax({
+          type: 'POST',
+          url: '/login',
+          data: formData,
+          dataType: 'json',
+          encode: true
+        }).done(function (data) {
+          if (data.result === 'success') {
+            window.location.href = '/tentangKami'; // Redirect ke halaman utama setelah login sukses
+          } else {
+            alert(data.msg); // Tampilkan pesan kesalahan jika login gagal
+          }
+        })
+      }
+    });
+  });
+</script>
+</body>
+
+</html>

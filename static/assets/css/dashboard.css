@@ -1,0 +1,49 @@
+section {
+  margin-top: 30px;
+}
+
+.pagination {
+  margin-top: 10px;
+  text-align: center;
+}
+
+body {
+  background-color: #ffffff !important;
+}
+
+table th,
+table td {
+  padding: 12px;
+  font-weight: 400;
+  /* Warna dan ketebalan garis sel */
+  text-align: center;
+  /* Pusatkan teks dalam sel */
+  color: #000;
+  /* Warna teks dalam sel */
+}
+
+table th {
+  /* Warna latar belakang header tabel */
+  font-weight: bold;
+  /* Mempertebal teks header */
+}
+
+table td {
+  background-color: #fff;
+  /* Warna latar belakang sel tabel */
+}
+
+.card {
+  background-image: linear-gradient(#f2e0b2, #ffe38d)!important; /* Change sidebar background color */
+}
+
+.card-text {
+  font-weight: bolder;
+  font-size: xx-large;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
