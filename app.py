@@ -820,5 +820,5 @@ def delete_outwear(outwear_id):
             return jsonify({"result": "error", "message": str(e)}), 400  # Return error message and HTTP status 400 (Bad Request) for client-side debugging
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
 

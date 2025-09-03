@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Create directory for uploaded files
-RUN chmod 755 static/img
+RUN chmod 755 static/assets/img
 
 # Set Flask environment variables
 ENV FLASK_APP=app.py \
