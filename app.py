@@ -15,6 +15,7 @@ import string
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
+mongo_uri = os.environ.get("MONGO_URI")
 
 load_dotenv()
 client = MongoClient("mongodb+srv://zaraswear08:zaraswear2024@cluster0.4u1zfms.mongodb.net/dbzaraswear?retryWrites=true&w=majority")
@@ -820,5 +821,5 @@ def delete_outwear(outwear_id):
             return jsonify({"result": "error", "message": str(e)}), 400  # Return error message and HTTP status 400 (Bad Request) for client-side debugging
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)
 
